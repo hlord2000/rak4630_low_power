@@ -5,39 +5,22 @@
  */
 
 #include <zephyr/kernel.h>
+#include <zephyr/pm/device_runtime.h>
+#include <zephyr/pm/device.h>
+#include <zephyr/lorawan/lorawan.h>
 #include <zephyr/drivers/gpio.h>
+#include <radio.h>
+#include <sx126x.h>
 
-/* 1000 msec = 1 sec */
-#define SLEEP_TIME_MS   1000
-
-/* The devicetree node identifier for the "led0" alias. */
-#define LED0_NODE DT_ALIAS(led0)
-
-/*
- * A build error on this line means your board is unsupported.
- * See the sample documentation for information on how to fix this.
- */
-static const struct gpio_dt_spec led = GPIO_DT_SPEC_GET(LED0_NODE, gpios);
+static const struct device *const i2c0_dev = DEVICE_DT_GET(DT_NODELABEL(i2c0));
+static const struct device *const lora_spi_dev = DEVICE_DT_GET(DT_NODELABEL(spi1));
 
 int main(void)
 {
-	int ret;
+    pm_device_action_run(i2c0_dev, PM_DEVICE_ACTION_SUSPEND);
+    pm_device_action_run(lora_spi_dev, PM_DEVICE_ACTION_SUSPEND);
 
-	if (!gpio_is_ready_dt(&led)) {
-		return 0;
-	}
-
-	ret = gpio_pin_configure_dt(&led, GPIO_OUTPUT_ACTIVE);
-	if (ret < 0) {
-		return 0;
-	}
-
-	while (1) {
-		ret = gpio_pin_toggle_dt(&led);
-		if (ret < 0) {
-			return 0;
-		}
-		k_msleep(SLEEP_TIME_MS);
-	}
-	return 0;
-}
+    while (true) {
+        k_msleep(5000);
+    }
+} 

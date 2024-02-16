@@ -1,0 +1,40 @@
+&usbd {
+    status = "disabled";
+};
+
+&i2c1 {
+    status = "disabled";
+};
+
+&uart0 {
+    status = "disabled";
+};
+
+&uart1 {
+    status = "disabled";
+};
+
+&nfct {
+    status = "disabled";
+};
+
+&qspi {
+    status = "disabled";
+};
+
+&spi0 {
+    status = "disabled";
+};
+
+&spi1 {
+    status = "disabled";
+};
+
+&spi2 {
+    status = "disabled";
+};
+
+//&spi3 {
+//    /delete-property/ rx-delay-supported;
+//    /delete-property/ rx-delay;
+//};

@@ -1,0 +1,138 @@
+//delete-node/ &green_led;
+//delete-node/ &blue_led;
+/delete-node/ &{/leds/led_1/};
+/delete-node/ &{/leds/led_2/};
+
+&zephyr_udc0 {
+    cdc_acm_uart0: cdc_acm_uart0 {
+		compatible = "zephyr,cdc-acm-uart";
+	};
+};
+
+/ {
+    chosen {
+        zephyr,console = &cdc_acm_uart0;
+    };
+
+    osd {
+        compatible = "gpio-keys";
+        
+        lora_reset: lora_reset {
+            gpios = <&gpio1 6 GPIO_ACTIVE_LOW>;
+        };
+
+        buzzer: vibe_motor {
+            gpios = <&gpio0 24 (GPIO_ACTIVE_LOW)>;
+        };
+
+        button1: switch1 {
+            gpios = <&gpio0 31 0>;
+        };
+        
+        button2: switch2 {
+            gpios = <&gpio0 25 0>;
+        };
+        
+        lanyard_in: lanyard_in {
+            gpios = <&gpio1 1 (0)>;
+        };
+
+        lanyard_out: lanyard_out {
+            gpios = <&gpio1 2 0>;
+        };
+
+        adc_bat: adc_bat {
+            gpios = <&gpio0 5 0>;
+        };
+    };
+
+    leds {
+        red_led: red_led {
+            gpios = <&gpio1 3 0>;
+        };
+
+        green_led: green_led {
+            gpios = <&gpio1 4 0>;
+        };
+    };
+
+    aliases {
+        led0 = &green_led;
+    };
+};
+
+/ {
+    chosen {
+        zephyr,shell-uart = &cdc_acm_uart0;
+    };
+};
+
+&i2c0 {
+    // rv3028: rv3028@52 {
+    //     compatible = "i2c-device";
+    //     reg = < 0x52 >;
+    //     pins {
+    //         compatible = "gpio-keys";
+    //         rv3028_int_pin: rv3028_int_pin {
+    //             gpios = <&gpio0 4 GPIO_ACTIVE_HIGH>;
+    //         };
+    //     };   
+    //     status = "disabled";
+    // };
+
+//    accel: lis2dw12@19 {
+//        compatible = "st,lis2dw12";
+//        reg = < 0x19 >;
+//        pins {
+//            compatible = "gpio-keys";
+//            accel_int_pin: accel_int_pin {
+//                gpios = <&gpio0 15 GPIO_ACTIVE_HIGH>;
+//            };
+//        };
+//        power-mode = <0>;
+//        status = "okay";
+//    };
+    compatible = "nordic,nrf-twim";
+    status="okay";
+};
+
+&i2c1 {
+    status = "disabled";
+};
+
+&uart0 {
+    status = "disabled";
+};
+
+&uart1 {
+    status = "disabled";
+};
+
+&nfct {
+    status = "disabled";
+};
+
+&qspi {
+    status = "disabled";
+};
+
+&spi0 {
+    status = "disabled";
+};
+
+&spi1 {
+    /delete-property/ compatible;
+    compatible = "nordic,nrf-spim";
+};
+
+&spi2 {
+    status = "disabled";
+};
+
+&spi3 {
+    status = "disabled";
+};
+
+&usbd {
+    status = "disabled";
+};
